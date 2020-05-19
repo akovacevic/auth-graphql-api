@@ -6,7 +6,7 @@
     "serve": "npm run compile && env-cmd -f ./config/dev.env firebase emulators:start --only functions --inspect-functions 9229",
     "shell": "npm run compile && env-cmd -f ./config/dev.env  firebase functions:shell",
     "start": "npm run compile && env-cmd -f ./config/prod.env npm run shell",
-    "deploy": "npm run compile && npm run firebase-config && firebase use default && firebase deploy --only functions:auth",
+    "deploy": "npm run compile && firebase use default && npm run firebase-config &&  firebase deploy --only functions:auth",
     "compile": "babel src --out-dir dist --delete-dir-on-start --source-maps",
     "logs": "firebase functions:log",
     "test": "env-cmd -f ./config/test.env jest --watch",
