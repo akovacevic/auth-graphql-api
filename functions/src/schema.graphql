@@ -1,0 +1,77 @@
+type Query {
+    users (input: Pagination!): [User]
+    user(uid: ID!): User
+    roles (input: Pagination!): [Role]
+    role(name: ID!): Role
+    groups (input: Pagination!): [Group]
+    group(name: ID!): Group
+}
+
+type Mutation {
+    importUsers(emails: [String]): Boolean
+    createRole(input: CreateRoleInput!): Role
+    createGroup(input: CreateGroupInput!): Group
+    updateRole(input: UpdateRoleInput!): Role
+    addRoleToGroup(input: RoleToGroup): Group
+    removeRoleFromGroup(input: RoleToGroup): Group
+    addUserToGroup(input: UserToGroup): User
+    removeUserFromGroup(input: UserToGroup):User
+    makeAdmin(uid: ID!): User
+    deleteRole(name: String!): Role
+    deleteGroup(name: String!): Group
+    deleteUser(uid: ID!): User
+}
+
+input RoleToGroup {
+    roleName: String!
+    groupName: String!
+}
+
+input Pagination {
+    size: Int! = 100
+    page: Int! = 1
+}
+
+input UserToGroup {
+    userId: ID!
+    groupName: String!
+}
+
+input CreateRoleInput {
+    name: ID!
+    permissions: [String!]
+}
+
+input CreateGroupInput {
+    name: ID!
+}
+
+input UpdateRoleInput {
+    name: ID!
+    permissions: [String!]
+}
+
+type User {
+    uid: ID!
+    email: String
+    emailVerified: Boolean
+    displayName: String
+    photoURL: String
+    phoneNumber: String
+    tokenValidAfterTime: String
+    tenantId: String
+    inGroups: [Group]
+    admin: Boolean
+}
+
+type Role {
+    name: ID!
+    permissions: [String!]!
+    inGroups: [Group]
+}
+
+type Group {
+    name: ID!
+    hasRoles: [Role]
+    members: [User]
+}
